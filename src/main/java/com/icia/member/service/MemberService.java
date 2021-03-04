@@ -14,48 +14,71 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class MemberService {
-
+	
 	private MemberRepository mr;
 	
 	public String memberJoin(MemberDTO member) {
-		// TODO Auto-generated method stub
+		// member에 담아온 내용을 DB에 insert
 		return mr.save(member.toEntity()).getMemail();
 	}
 
 	public MemberDTO memberLogin(MemberDTO member) {
-		
+		// select * from bootmember where mnumber=?
+		// select * from bootmember where memail=?
 		MemberEntity memberEntity = mr.findByMemail(member.getMemail());
-		
-		//DB에서 조회된 내용은 entity 타입이기 때문에 dto에 옮겨 담음
+		// db에서 조회된 내용은 entity 타입이기 때문에 dto에 옮겨 담음. 
 		MemberDTO loginMember = MemberDTO.builder()
-											.mnumber(memberEntity.getMnumber())
-											.memail(memberEntity.getMemail())
-											.mpassword(memberEntity.getMpassword())
-											.mname(memberEntity.getMname())
-											.build();
-
+										.mnumber(memberEntity.getMnumber())
+										.memail(memberEntity.getMemail())
+										.mpassword(memberEntity.getMpassword())
+										.mname(memberEntity.getMname())
+										.build();
 		if(member.getMpassword().equals(loginMember.getMpassword()))
 			return loginMember;
-		else
+		else 
 			return null;
 	}
 
 	public List<MemberDTO> memberList() {
 		List<MemberEntity> memberEntity = mr.findAll();
 		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
-		
-		//Entity 타입의 리스트를 DTO 타입의 리스트로 옮겨 담기
+		// Entity 타입의 리스트를 DTO 타입의 리스트로 옮겨 담기 
 		for(MemberEntity entity : memberEntity) {
 			MemberDTO member = MemberDTO.builder()
-										.mnumber(entity.getMnumber())
-										.memail(entity.getMemail())
-										.mpassword(entity.getMpassword())
-										.mname(entity.getMname())
-										.build();
+									.mnumber(entity.getMnumber())
+									.memail(entity.getMemail())
+									.mpassword(entity.getMpassword())
+									.mname(entity.getMname())
+									.build();
 			memberList.add(member);
 		}
-
+		
 		return memberList;
 	}
 
+	public MemberDTO memberView(String memail) {
+		MemberEntity memberEntity = mr.findByMemail(memail);
+		MemberDTO memberView = MemberDTO.builder()
+										.mnumber(memberEntity.getMnumber())
+										.memail(memberEntity.getMemail())
+										.mpassword(memberEntity.getMpassword())
+										.mname(memberEntity.getMname())
+										.build();
+		return memberView;
+	}
+
+	public String memberDelete(int mnumber) {
+		mr.deleteById(mnumber);
+		return "ok";
+	}
+
 }
+
+
+
+
+
+
+
+
+

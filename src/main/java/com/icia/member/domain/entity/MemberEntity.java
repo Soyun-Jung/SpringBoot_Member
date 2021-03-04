@@ -4,16 +4,16 @@ import javax.persistence.*;
 
 import lombok.*;
 
-//Entity 클래스 객체를 다른 패키지 소속 클래스가 만들지 못하게 함
-//MemberEntity me=new MemberEntity();
+// Entity 클래스 객체를 다른 패키지 소속 클래스가 만들지 못하게 함 
+// MemberEntity me = new MemberEntity();
 @NoArgsConstructor(access=AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name="bootmember") 
 public class MemberEntity {
-	
-	@Id //pk
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //sequence
+
+	@Id // pk
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // sequence  
 	private int mnumber;
 	
 	@Column(length=100, unique=true, nullable=false)
@@ -25,7 +25,7 @@ public class MemberEntity {
 	@Column(length=30, nullable=false)
 	private String mname;
 	
-	//필드 하나하나에 대한 setter를 쓰지 않고 builder 패턴 사용
+	// 필드 하나하나에 대한 setter를 쓰지 않고 builder 패턴 사용 
 	@Builder
 	public MemberEntity(int mnumber, String memail, 
 			String mpassword, String mname) {
@@ -38,3 +38,13 @@ public class MemberEntity {
 
 	
 }
+
+
+
+
+
+
+
+
+
+
